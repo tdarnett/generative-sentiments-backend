@@ -15,4 +15,4 @@ jobs:
           architecture: 'x64'
       - run: pip install -r deployment/requirements-dev.txt
       - run: black --check deployment/src
-      - run: isort --check-only --recursive
+      - run: isort deployment/src/*
