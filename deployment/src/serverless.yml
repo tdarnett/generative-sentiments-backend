@@ -1,0 +1,31 @@
+service: generative-sentiments
+
+custom:
+  bucket: generative-sentiments
+
+provider:
+  name: aws
+  region: us-west-2
+  runtime: python3.7
+  httpApi:
+    cors: true
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - "s3:Get*"
+        - "s3:List*"
+        - "s3:PutObject"
+      Resource: "arn:aws:s3:::${self:custom.bucket}/*"
+
+functions:
+  sentimentPredictor:
+    handler: handler.run
+    events:
+      - httpApi:
+          path: /predict
+          method: POST
+    environment:
+      BUCKET_NAME: ${self:custom.bucket}
+
+plugins:
+  - serverless-python-requirements

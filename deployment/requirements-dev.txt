@@ -1,0 +1,6 @@
+-r src/requirements.txt
+
+black
+isort
+flake8
+pre-commit

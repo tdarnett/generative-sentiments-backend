@@ -1,0 +1,8 @@
+{
+  "name": "generative-sentiments",
+  "version": "1.0.0",
+  "description": "Predict emotional sentiment from an emotional sentence.",
+  "devDependencies": {
+    "serverless-python-requirements": "^5.1.0"
+  }
+}
