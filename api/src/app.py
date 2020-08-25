@@ -61,7 +61,7 @@ def predict(tokenized_sentence):
     project = "generative-sentiments"
     instances = [tokenized_sentence]
     region = "us-central1"
-    version = "v1"
+    version = "v2"
 
     return predict_json(project, region, model, instances, version)
 
