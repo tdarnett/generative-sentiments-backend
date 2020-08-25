@@ -5,7 +5,7 @@ on:
 
 jobs:
   ci:
-    name: Black and isort
+    name: linters
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -13,6 +13,10 @@ jobs:
         with:
           python-version: '3.7'
           architecture: 'x64'
-      - run: pip install -r deployment/requirements-dev.txt
-      - run: black --check deployment/src
-      - run: isort deployment/src/*
+      - run: pip install -r api/requirements-dev.txt
+      - run: black --check api/src
+      - run: isort api/src/app.py
+      - uses: brpaz/hadolint-action@master
+        with:
+          dockerfile: api/Dockerfile
+

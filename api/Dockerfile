@@ -1,0 +1,18 @@
+FROM python:3.7-slim-buster
+
+WORKDIR /usr/src/app
+
+COPY src/ .
+
+ENV GOOGLE_APPLICATION_CREDENTIALS=/usr/src/app/generative-sentiments-creds.json
+
+# hadolint ignore=DL3013
+RUN pip install --upgrade pip
+# hadolint ignore=DL3013
+RUN pip install --no-cache-dir -r requirements.txt
+
+
+CMD [ "python", "app.py" ]
+
+
+

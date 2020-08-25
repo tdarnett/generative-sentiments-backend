@@ -1,0 +1,7 @@
+numpy==1.18.5
+google-api-python-client==1.10.0
+sklearn==0.0
+Flask==1.1.2
+Keras-Preprocessing==1.1.2
+google-api-core==1.22.1
+six==1.15.0
