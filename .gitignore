@@ -6,3 +6,5 @@ ipython_config.py
 
 lib/
 bin/
+
+generative-sentiments-creds.json
