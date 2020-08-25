@@ -8,3 +8,6 @@ lib/
 bin/
 
 generative-sentiments-creds.json
+
+pyvenv.cfg
+.env

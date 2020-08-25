@@ -1,6 +1,7 @@
 import pickle
 
 import numpy as np
+from decouple import config
 from flask import Flask, jsonify, request
 from google.api_core.client_options import ClientOptions
 from googleapiclient import discovery
@@ -88,4 +89,4 @@ def predict_json(project, region, model, instances, version=None):
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0")
+    app.run(debug=True, host="0.0.0.0", port=config("PORT", default=8080, cast=int))
