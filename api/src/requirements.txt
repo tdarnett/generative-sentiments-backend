@@ -4,5 +4,6 @@ sklearn==0.0
 Flask==1.1.2
 Keras-Preprocessing==1.1.2
 google-api-core==1.22.1
+gunicorn==20.0.4
 six==1.15.0
 python-decouple==3.3
