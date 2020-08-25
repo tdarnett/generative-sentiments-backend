@@ -15,6 +15,8 @@ jobs:
           architecture: 'x64'
       - run: pip install -r deployment/requirements-dev.txt
       - run: black --check deployment/src
-      - run: isort deployment/src/*
+      - run: isort deployment/src/app.py
       - uses: brpaz/hadolint-action@master
+        with:
+          dockerfile: deployment/Dockerfile
 
