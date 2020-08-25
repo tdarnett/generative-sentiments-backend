@@ -16,3 +16,5 @@ jobs:
       - run: pip install -r deployment/requirements-dev.txt
       - run: black --check deployment/src
       - run: isort deployment/src/*
+      - uses: brpaz/hadolint-action@master
+
