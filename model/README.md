@@ -1,4 +1,4 @@
-# Generative Sentiments - API
+# Generative Sentiments - Model
 
 This repository holds the jupyter notebook which implements a bidirectional LSTM model used to classify an emotional sentence into one of 6 emotions.
 
