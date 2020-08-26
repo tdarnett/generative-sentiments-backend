@@ -7,15 +7,9 @@ from google.api_core.client_options import ClientOptions
 from googleapiclient import discovery
 from sklearn.preprocessing import LabelEncoder
 
-# from flask_cors import CORS
-
 app = Flask(__name__)
 
 MAX_LENGTH = 100
-
-
-# Uncomment this line if you are making a Cross domain request
-# CORS(app)
 
 
 @app.route("/predict/", methods=["POST"])
@@ -43,6 +37,9 @@ def sentiment_classifier():
 
 
 def pad_and_tokenize(tokenizer, text):
+    """
+    pre-process the input sentence so that it matches the expected format of the NLP model.
+    """
     sequences = tokenizer.texts_to_sequences(text)
 
     padded_data = np.pad(sequences[0], (max(MAX_LENGTH - len(sequences[0]), 0), 0), "constant").tolist()
@@ -67,7 +64,10 @@ def predict(tokenized_sentence):
 
 
 def predict_json(project, region, model, instances, version=None):
-
+    """
+    Use google's sdk to avoid using http requests.
+    This will authenticate using the IAM policy set up in Cloud Build
+    """
     prefix = "{}-ml".format(region) if region else "ml"
     api_endpoint = "https://{}.googleapis.com".format(prefix)
 
