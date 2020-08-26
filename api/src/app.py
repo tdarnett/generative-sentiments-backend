@@ -3,18 +3,18 @@ import pickle
 import numpy as np
 from decouple import config
 from flask import Flask, jsonify, request
-from flask_cors import cross_origin
+from flask_cors import CORS
 from google.api_core.client_options import ClientOptions
 from googleapiclient import discovery
 from sklearn.preprocessing import LabelEncoder
 
 app = Flask(__name__)
+CORS(app)
 
 MAX_LENGTH = 100
 
 
 @app.route("/predict/", methods=["POST"])
-@cross_origin()
 def sentiment_classifier():
     # pre-process input text
     input_sentence = np.array([request.json["sentence"]])
