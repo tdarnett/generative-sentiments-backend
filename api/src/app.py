@@ -1,21 +1,22 @@
-import pickle
+import pickle  # type: ignore
+from typing import Optional
 
-import numpy as np
-from decouple import config
-from flask import Flask, jsonify, request
-from flask_cors import CORS
-from google.api_core.client_options import ClientOptions
-from googleapiclient import discovery
-from sklearn.preprocessing import LabelEncoder
+import numpy as np  # type: ignore
+from decouple import config  # type: ignore
+from flask import Flask, jsonify, request  # type: ignore
+from flask_cors import CORS  # type: ignore
+from google.api_core.client_options import ClientOptions  # type: ignore
+from googleapiclient import discovery  # type: ignore
+from sklearn.preprocessing import LabelEncoder  # type: ignore
 
 app = Flask(__name__)
 CORS(app)
 
-MAX_LENGTH = 100
+MAX_LENGTH: int = 100
 
 
 @app.route("/predict/", methods=["POST"])
-def sentiment_classifier():
+def sentiment_classifier() -> dict:
     # pre-process input text
     input_sentence = np.array([request.json["sentence"]])
 
@@ -38,7 +39,7 @@ def sentiment_classifier():
     return jsonify(label=label[0], confidence=confidence, input_sentence=input_sentence[0])
 
 
-def pad_and_tokenize(tokenizer, text):
+def pad_and_tokenize(tokenizer, text: str) -> list:
     """
     pre-process the input sentence so that it matches the expected format of the NLP model.
     """
@@ -55,7 +56,7 @@ def load_tokenizer():
     return tokenizer
 
 
-def predict(tokenized_sentence):
+def predict(tokenized_sentence: list) -> dict:
     model = "generative_sentiments_model"
     project = "generative-sentiments"
     instances = [tokenized_sentence]
@@ -65,7 +66,7 @@ def predict(tokenized_sentence):
     return predict_json(project, region, model, instances, version)
 
 
-def predict_json(project, region, model, instances, version=None):
+def predict_json(project: str, region: str, model: str, instances: list, version: Optional[str] = None) -> dict:
     """
     Use google's sdk to avoid using http requests.
     This will authenticate using the IAM policy set up in Cloud Build

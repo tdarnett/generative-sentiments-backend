@@ -16,6 +16,7 @@ jobs:
       - run: pip install -r api/requirements-dev.txt
       - run: black --check api/src
       - run: isort api/src/app.py
+      - run: mypy api/src/*.py
       - uses: brpaz/hadolint-action@master
         with:
           dockerfile: api/Dockerfile
