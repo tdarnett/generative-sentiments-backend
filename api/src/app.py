@@ -57,7 +57,7 @@ def load_tokenizer():
 
 def predict(tokenized_sentence: list) -> list:
     instances = [tokenized_sentence]
-    body = {instances: instances}
+    body = dict(instances=instances)
     url = os.environ["PREDICT_URL"]
 
     response = requests.post(url, json=body)
