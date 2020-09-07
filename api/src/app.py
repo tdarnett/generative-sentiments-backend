@@ -1,12 +1,11 @@
+import os
 import pickle  # type: ignore
-from typing import Optional
 
 import numpy as np  # type: ignore
+import requests
 from decouple import config  # type: ignore
 from flask import Flask, jsonify, request  # type: ignore
 from flask_cors import CORS  # type: ignore
-from google.api_core.client_options import ClientOptions  # type: ignore
-from googleapiclient import discovery  # type: ignore
 from sklearn.preprocessing import LabelEncoder  # type: ignore
 
 app = Flask(__name__)
@@ -56,39 +55,15 @@ def load_tokenizer():
     return tokenizer
 
 
-def predict(tokenized_sentence: list) -> dict:
-    model = "generative_sentiments_model"
-    project = "generative-sentiments"
+def predict(tokenized_sentence: list) -> list:
     instances = [tokenized_sentence]
-    region = "us-central1"
-    version = "v2"
+    body = {instances: instances}
+    url = os.environ["PREDICT_URL"]
 
-    return predict_json(project, region, model, instances, version)
+    response = requests.post(url, json=body)
+    prediction_array = response.json()["predictions"][0]
 
-
-def predict_json(project: str, region: str, model: str, instances: list, version: Optional[str] = None) -> dict:
-    """
-    Use google's sdk to avoid using http requests.
-    This will authenticate using the IAM policy set up in Cloud Build
-    """
-    prefix = "{}-ml".format(region) if region else "ml"
-    api_endpoint = "https://{}.googleapis.com".format(prefix)
-
-    client_options = ClientOptions(api_endpoint=api_endpoint)
-
-    service = discovery.build("ml", "v1", client_options=client_options)
-
-    name = "projects/{}/models/{}".format(project, model)
-
-    if version is not None:
-        name += "/versions/{}".format(version)
-
-    response = service.projects().predict(name=name, body={"instances": instances}).execute()
-
-    if "error" in response:
-        raise RuntimeError(response["error"])
-
-    return response["predictions"]
+    return prediction_array
 
 
 if __name__ == "__main__":
